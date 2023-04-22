@@ -1,0 +1,42 @@
+/* Set the font to Ubuntu sans-serif */
+body {
+    font-family: 'Ubuntu', sans-serif;
+  }
+  
+  /* Style the tables */
+  table {
+    margin: 0 auto; /* Center the table horizontally */
+    border-collapse: separate;
+    border-spacing: 10px; /* Add space between the cells */
+  }
+  
+  /* Style the cells */
+  td {
+    width: 350px; /* Set the width of each cell */
+    height: 100px; /* Set the height of each cell */
+    border-radius: 10px; /* Add rounded corners */
+    border-color: black; /* Set the border color */
+    border-style: solid; /* Set the border style */
+    border-width: 2px; /* Set the border width */
+    text-align: left; /* Set the text alignment to left */
+    vertical-align: middle;
+    padding: 5px; /* Add some padding inside the cell */
+  }
+  
+  /* Set the color of the cells based on their state */
+  td.on {
+    background-color: green;
+  }
+  
+  td.off {
+    background-color: red;
+  }
+  
+  td.other {
+    background-color: none;
+  }
+  
+  /* Set the table-header class div to be centered */
+div.table-header {
+    text-align: center;
+}

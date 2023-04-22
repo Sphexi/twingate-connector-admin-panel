@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>{% block title %} {% endblock %}</title>
 </head>
   <body>
@@ -19,60 +20,59 @@
           <br /><br />
         </div>
         <div id="right-div">
-        <h3>Connectors</h3>
-        <table>
-          {% for connector in connectors_data %}
-            {% if loop.index % 2 > 0 or loop.first == True %}
-              <tr>
-                <td style="border:1px solid black;background-color: {% if connector.state == 'ALIVE' %}#4efc03{% else %}red{% endif %};"><b>ID:</b> {{ connector.id }}<br/>
+          <div class="table-header"><h3>Connectors</h3></div>
+          <table>
+            {% for connector in connectors_data %}
+              {% if loop.index % 2 > 0 or loop.first == True %}
+                <tr>
+                  <td class="{% if connector.state == 'ALIVE' %}on{% else %}of{% endif %}"><b>ID:</b> {{ connector.id }}<br/>
+                  <b>Name:</b> {{ connector.name }}<br/>
+                  <b>State:</b> {{ connector.state }}<br/>
+                  <b>Last Seen:</b> {{ connector.lastHeartbeatAt }}</td>
+              {% else %}
+                <td class="{% if connector.state == 'ALIVE' %}on{% else %}of{% endif %}"><b>ID:</b> {{ connector.id }}<br/>
                 <b>Name:</b> {{ connector.name }}<br/>
                 <b>State:</b> {{ connector.state }}<br/>
                 <b>Last Seen:</b> {{ connector.lastHeartbeatAt }}</td>
+              {% endif %}
+            {% endfor %}
+          </table>
+          <br/><br/>
+          <div class="table-header"><h3>Devices</h3></div>
+          <table>
+          {% for device in devices_data %}
+            {% if loop.first == True or loop.index0 % 3 == 0 %}
+              <tr>
+                <td class="other"><b>ID:</b> {{ device.id }}<br/>
+                  <b>Name:</b> {{ device.name }}<br/>
+                  <b>Is Trusted:</b> {{ device.isTrusted }}<br/>
+                  <b>OS:</b> {{ device.osName }}<br/>
+                  <b>Type:</b> {{ device.deviceType }}</td>
             {% else %}
-              <td style="border:1px solid black;background-color: {% if connector.state == 'ALIVE' %}#4efc03{% else %}red{% endif %};"><b>ID:</b> {{ connector.id }}<br/>
-              <b>Name:</b> {{ connector.name }}<br/>
-              <b>State:</b> {{ connector.state }}<br/>
-              <b>Last Seen:</b> {{ connector.lastHeartbeatAt }}</td>
-              </tr>
+                <td class="other"><b>ID:</b> {{ device.id }}<br/>
+                  <b>Name:</b> {{ device.name }}<br/>
+                  <b>Is Trusted:</b> {{ device.isTrusted }}<br/>
+                  <b>OS:</b> {{ device.osName }}<br/>
+                  <b>Type:</b> {{ device.deviceType }}</td>
             {% endif %}
           {% endfor %}
-        </table>
-        <br/><br/>
-        <h3>Devices</h3>
-        <table>
-        {% for device in devices_data %}
-          {% if loop.first == True or loop.index0 % 3 == 0 %}
-            <tr>
-              <td style="border:1px solid black">ID: {{ device.id }}<br/>
-                Name: {{ device.name }}<br/>
-                Is Trusted: {{ device.isTrusted }}<br/>
-                OS: {{ device.osName }}<br/>
-                Type: {{ device.deviceType }}</td>
-          {% else %}
-              <td style="border:1px solid black">ID: {{ device.id }}<br/>
-                Name: {{ device.name }}<br/>
-                Is Trusted: {{ device.isTrusted }}<br/>
-                OS: {{ device.osName }}<br/>
-                Type: {{ device.deviceType }}</td>
-          {% endif %}
-        {% endfor %}
-        </table>
-        <h3>Resources</h3>
-        <table>
-        {% for resource in resources_data %}
-          {% if loop.first == True or loop.index0 % 4 == 0 %}
-            <tr>
-              <td style="border:1px solid black;{% if resource.isActive == True %}background-color: #4efc03;{% endif %}">ID: {{ resource.id }}<br/>
-                Name: {{ resource.name }}<br/>
-                Active: {{ resource.isActive }}<br/>
-                Remote Network: {{ resource.remoteNetwork.name }}</td>
-          {% else %}
-              <td style="border:1px solid black;{% if resource.isActive == True %}background-color: #4efc03;{% endif %}">ID: {{ resource.id }}<br/>
-                Name: {{ resource.name }}<br/>
-                Active: {{ resource.isActive }}<br/>
-                Remote Network: {{ resource.remoteNetwork.name }}</td>
-          {% endif %}
-        {% endfor %}
+          </table>
+          <div class="table-header"><h3>Resources</h3></div>
+          <table>
+          {% for resource in resources_data %}
+            {% if loop.first == True or loop.index0 % 4 == 0 %}
+              <tr>
+                <td class="{% if resource.isActive == True %}on{% else %}other{% endif %}"><b>ID:</b> {{ resource.id }}<br/>
+                  <b>Name:</b> {{ resource.name }}<br/>
+                  <b>Active:</b> {{ resource.isActive }}<br/>
+                  <b>Remote Network:</b> {{ resource.remoteNetwork.name }}</td>
+            {% else %}
+                <td class="{% if resource.isActive == True %}on{% else %}other{% endif %}"><b>ID:</b> {{ resource.id }}<br/>
+                  <b>Name:</b> {{ resource.name }}<br/>
+                  <b>Active:</b> {{ resource.isActive }}<br/>
+                  <b>Remote Network:</b> {{ resource.remoteNetwork.name }}</td>
+            {% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>
