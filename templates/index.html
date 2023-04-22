@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <div id="wrapper-div">
+      <div class="d-flex">
+        <div class="main-container">
+          <span class="spacer-span">&nbsp;</span>
+          {% for message in get_flashed_messages() %}
+              <div class="alert alert-danger">{{ message }}</div>
+          {% endfor %}
+          {% block content %} {% endblock %}
+          <br /><br />
+        </div>
+        <div id="right-div">
+        <h3>Connectors</h3>
+        <table>
+          {% for connector in connectors_data %}
+            {% if loop.index % 2 > 0 or loop.first == True %}
+              <tr>
+                <td style="border:1px solid black;background-color: {% if connector.state == 'ALIVE' %}#4efc03{% else %}red{% endif %};"><b>ID:</b> {{ connector.id }}<br/>
+                <b>Name:</b> {{ connector.name }}<br/>
+                <b>State:</b> {{ connector.state }}<br/>
+                <b>Last Seen:</b> {{ connector.lastHeartbeatAt }}</td>
+            {% else %}
+              <td style="border:1px solid black;background-color: {% if connector.state == 'ALIVE' %}#4efc03{% else %}red{% endif %};"><b>ID:</b> {{ connector.id }}<br/>
+              <b>Name:</b> {{ connector.name }}<br/>
+              <b>State:</b> {{ connector.state }}<br/>
+              <b>Last Seen:</b> {{ connector.lastHeartbeatAt }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+        <br/><br/>
+        <h3>Devices</h3>
+        <table>
+        {% for device in devices_data %}
+          {% if loop.first == True or loop.index0 % 3 == 0 %}
+            <tr>
+              <td style="border:1px solid black">ID: {{ device.id }}<br/>
+                Name: {{ device.name }}<br/>
+                Is Trusted: {{ device.isTrusted }}<br/>
+                OS: {{ device.osName }}<br/>
+                Type: {{ device.deviceType }}</td>
+          {% else %}
+              <td style="border:1px solid black">ID: {{ device.id }}<br/>
+                Name: {{ device.name }}<br/>
+                Is Trusted: {{ device.isTrusted }}<br/>
+                OS: {{ device.osName }}<br/>
+                Type: {{ device.deviceType }}</td>
+          {% endif %}
+        {% endfor %}
+        </table>
+        <h3>Resources</h3>
+        <table>
+        {% for resource in resources_data %}
+          {% if loop.first == True or loop.index0 % 4 == 0 %}
+            <tr>
+              <td style="border:1px solid black;{% if resource.isActive == True %}background-color: #4efc03;{% endif %}">ID: {{ resource.id }}<br/>
+                Name: {{ resource.name }}<br/>
+                Active: {{ resource.isActive }}<br/>
+                Remote Network: {{ resource.remoteNetwork.name }}</td>
+          {% else %}
+              <td style="border:1px solid black;{% if resource.isActive == True %}background-color: #4efc03;{% endif %}">ID: {{ resource.id }}<br/>
+                Name: {{ resource.name }}<br/>
+                Active: {{ resource.isActive }}<br/>
+                Remote Network: {{ resource.remoteNetwork.name }}</td>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

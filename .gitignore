@@ -1,0 +1,6 @@
+.env
+*.pyc
+static/.DS_Store
+.DS_Store
+!partner-configs.json
+.vscode/settings.json
