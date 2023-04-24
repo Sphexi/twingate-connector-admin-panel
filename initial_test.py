@@ -3,7 +3,7 @@
 #it will then output the connector name and the status of the connector using print()
 
 #this is the import for the graphql library
-import graphql
+#import graphql
 from ariadne import *
 import requests
 import json
