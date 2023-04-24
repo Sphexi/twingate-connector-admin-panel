@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Status Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+  </head>
+  <body>
+    <h1>Status Page</h1>
+
+    <div class="section">
+      <h2>Connectors</h2>
+      <div class="cards" id="connectors"></div>
+    </div>
+    
+    <div class="section">
+      <h2>Devices</h2>
+      <div class="cards" id="devices"></div>
+    </div>
+    
+    <div class="section">
+      <h2>Resources</h2>
+      <div class="cards" id="resources"></div>
+    </div>
+
+    <script>
+      // Get the DOM elements for each section
+        const connectorsSection = document.getElementById('connectors');
+        const devicesSection = document.getElementById('devices');
+        const resourcesSection = document.getElementById('resources');
+
+        // Define a function to create a card element for each object
+        function createCard(object) {
+          // Create the card element
+          const card = document.createElement('div');
+          card.classList.add('card');
+
+          // Loop through the properties of the object and create a separate element for each one
+          for (const [key, value] of Object.entries(object)) {
+            const element = document.createElement('p');
+            element.classList.add('card__property');
+            element.textContent = `${key}: ${value}`;
+            card.appendChild(element);
+          }
+
+          // Add the card to the appropriate section
+          if (object.type === 'connector') {
+            connectorsSection.appendChild(card);
+          } else if (object.type === 'device') {
+            devicesSection.appendChild(card);
+          } else if (object.type === 'resource') {
+            resourcesSection.appendChild(card);
+          }
+        }
+
+      // Define a function to fetch data from the API endpoint and create cards for each object
+      async function fetchData() {
+        // Fetch data for connectors
+        const connectorsResponse = await fetch('/connectors');
+        const connectorsData = await connectorsResponse.json();
+        connectorsData.forEach(object => {
+          object.type = 'connector';
+          createCard(object);
+        });
+
+        // Fetch data for devices
+        const devicesResponse = await fetch('/devices');
+        const devicesData = await devicesResponse.json();
+        devicesData.forEach(object => {
+          object.type = 'device';
+          createCard(object);
+        });
+
+        // Fetch data for resources
+        const resourcesResponse = await fetch('/resources');
+        const resourcesData = await resourcesResponse.json();
+        resourcesData.forEach(object => {
+          object.type = 'resource';
+          createCard(object);
+        });
+      }
+
+      // Call the fetchData function to fetch and display the data
+      fetchData();
+
+    </script>
+  </body>
+</html>

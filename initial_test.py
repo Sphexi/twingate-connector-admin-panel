@@ -53,8 +53,15 @@ print(payload)
 response = requests.request("POST", url, json={'query': payload}, headers=headers)
 
 #this will convert the response from the twingate graphql api to a json object
-response = json.loads(response.text)
-print(response)
+#response = json.loads(response.text)
+
+response_json = json.loads(response.text)['data']['connectors']['edges']
+connectors = []
+for connector in response_json:
+    connectors.append(connector['node'])
+
+
+print(connectors)
 for x in response:
     print(x + ' test')
     print(response[x])
