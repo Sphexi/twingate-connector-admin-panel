@@ -24,7 +24,7 @@
             for (const [key, value] of Object.entries(newDataItem)) {
               const element = existingCard.querySelector(`[data-field="${key}"]`);
               if (element) {
-                element.innerHTML = '<b>' + key + ':</b>' + value;
+                element.innerHTML = '<b>' + key + ': </b>' + value;
               }
             }
           }
@@ -61,7 +61,13 @@
               const fieldElement = document.createElement("div");
               fieldElement.classList.add("card-field");
               fieldElement.dataset.field = key;
-              fieldElement.innerHTML = '<b>' + key + ':</b>' + value;
+              if (typeof(value) === 'object' && value !== null) {
+                for (const [key, value2] of Object.entries(value)) {
+                    fieldElement.innerHTML = '<b>' + key + ': </b>' + value2;
+                }
+            } else {
+                fieldElement.innerHTML = '<b>' + key + ': </b>' + value;
+            }
               newCard.appendChild(fieldElement);
             }
 

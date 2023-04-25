@@ -61,6 +61,7 @@ def devices():
     devices = []
     for device in response_json:
         devices.append(device['node'])
+    print(devices)
     return devices
 
 def resources():
@@ -75,27 +76,6 @@ def resources():
         isActive
         remoteNetwork{
             name
-        }
-        address {
-                type
-                value
-                }
-        protocols {
-                allowIcmp
-                tcp {
-                    policy
-                    ports {
-                        start
-                        end
-                    }
-                }
-                udp{
-                    policy
-                    ports {
-                        start
-                        end
-                    }
-                }
         }
 
       }
