@@ -2,7 +2,9 @@
 
       const connectorSection = document.getElementById("connectors");
       const deviceSection = document.getElementById("devices");
+      const userSection = document.getElementById("users");
       const resourceSection = document.getElementById("resources");
+      const serviceAccountsSection = document.getElementById("service_accounts");
 
       function updateCards(section, newData) {
         // Get all existing cards in the section
@@ -21,12 +23,7 @@
           // If a card already exists, update it with the new data
           if (existingCard) {
             // Loop through all fields in the data and update the corresponding elements in the card
-            for (const [key, value] of Object.entries(newDataItem)) {
-              const element = existingCard.querySelector(`[data-field="${key}"]`);
-              if (element) {
-                element.innerHTML = '<b>' + key + ': </b>' + value;
-              }
-            }
+            updateCardFields(existingCard, newDataItem);
           }
 
           // If no card exists for this data item, create a new one
@@ -45,6 +42,18 @@
                 } else {
                     newCard.classList.add("card", "card-bad");
                 }
+            } else if (section.id === "users") {
+                if (newDataItem.isActive === true) {
+                    newCard.classList.add("card", "card-good");
+                } else {
+                    newCard.classList.add("card", "card-bad");
+                }
+            } else if (section.id === "service_accounts") {
+                if (newDataItem.isActive === true) {
+                    newCard.classList.add("card", "card-good");
+                } else {
+                    newCard.classList.add("card", "card-bad")
+                }
             } else if (section.id === "resources") {
                 if (newDataItem.isActive === true) {
                     newCard.classList.add("card", "card-good");
@@ -61,13 +70,7 @@
               const fieldElement = document.createElement("div");
               fieldElement.classList.add("card-field");
               fieldElement.dataset.field = key;
-              if (typeof(value) === 'object' && value !== null) {
-                for (const [key, value2] of Object.entries(value)) {
-                    fieldElement.innerHTML = '<b>' + key + ': </b>' + value2;
-                }
-            } else {
-                fieldElement.innerHTML = '<b>' + key + ': </b>' + value;
-            }
+              fieldElement.innerHTML = formatData(key, value);
               newCard.appendChild(fieldElement);
             }
 
@@ -85,24 +88,63 @@
         }
       }
 
-      function fetchDataAndUpdateCards() {
-        // Fetch new data for each section
-        console.log("fetching data")
-        fetch("/connectors")
-          .then(response => response.json())
-          .then(data => updateCards(connectorSection, data));
-
-        fetch("/devices")
-          .then(response => response.json())
-          .then(data => updateCards(deviceSection, data));
-
-        fetch("/resources")
-          .then(response => response.json())
-          .then(data => updateCards(resourceSection, data));
+function updateCardFields(card, dataItem) {
+  for (const [key, value] of Object.entries(dataItem)) {
+    const element = card.querySelector(`[data-field="${key}"]`);
+    if (element) {
+      if (typeof value === "object" && value !== null) {
+        updateCardFields(element, value); // Recursively update nested objects
+      } else {
+        element.innerHTML = "<b>" + key + ": </b>" + value;
       }
+    }
+  }
+}
 
-      // Initial fetch and update
-      fetchDataAndUpdateCards();
+//function to take input key value pair, check the value to see if it's an object and if so recurisvely loop through
+//the object and continue to check to see if nested objects exist, until it gets to something that is just a key value pair
+//and not an object, and then add them to the card, if the value is not an object then format it and return it
+function formatData(key, value) {
+    if (typeof(value) === 'object' && value !== null) {
+        console.log(value)
+        for (const [key, value2] of Object.entries(value)) {
+            formatData(key, value2);
+        }
+    } else {
+        return '<b>' + key + ': </b>' + value;
+    }
+}
 
-      // Periodically fetch and update
-      setInterval(fetchDataAndUpdateCards, 60000);
+
+
+
+
+function fetchDataAndUpdateCards() {
+  // Fetch new data for each section
+  console.log("fetching data")
+  fetch("/connectors")
+    .then(response => response.json())
+    .then(data => updateCards(connectorSection, data));
+
+  fetch("/devices")
+    .then(response => response.json())
+    .then(data => updateCards(deviceSection, data));
+
+  fetch("/users")
+    .then(response => response.json())
+    .then(data => updateCards(userSection, data));
+
+  fetch("/service_accounts")
+    .then(response => response.json())
+    .then(data => updateCards(serviceAccountsSection, data));
+
+  fetch("/resources")
+    .then(response => response.json())
+    .then(data => updateCards(resourceSection, data));
+}
+
+// Initial fetch and update
+fetchDataAndUpdateCards();
+
+// Periodically fetch and update
+setInterval(fetchDataAndUpdateCards, 60000);

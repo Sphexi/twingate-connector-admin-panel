@@ -32,3 +32,15 @@ def api_resources():
     resources_data = resources()
     return json.dumps(resources_data)
 
+#users route
+@app.route('/users')
+def api_users():
+    users_data = users()
+    return json.dumps(users_data)
+
+#service accounts route
+@app.route('/service_accounts')
+def api_service_accounts():
+    service_accounts_data = service_accounts()
+    return json.dumps(service_accounts_data)
+
