@@ -7,4 +7,6 @@ services:
     environment:
       - TWINGATE_API_DOMAIN= #twingate network name ie company from company.twingate.com
       - TWINGATE_API_KEY= #a twingate api key with read permissions
+    ports:
+      - 8111:5000
     restart: unless-stopped
