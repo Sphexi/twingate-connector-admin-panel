@@ -1,4 +1,7 @@
-#import all of the main libraries needed to access files, environment variables, and run the app, generate uuids, deal with collections and API requests, graphql queries, and json objects, and access the docker daemon
+# most of what's required, and the two env variables to run this
+
+# there are some unused imports from testing, too lazy to go throgh
+# and remove them, but they don't hurt anything
 
 
 import os, random, json, collections, requests, sys, uuid
@@ -12,6 +15,6 @@ import traceback
 import graphql
 from ariadne import *
 
-#import env variables
+# import env variables
 TWINGATE_DOMAIN = os.getenv('TWINGATE_API_DOMAIN')
 TWINGATE_API_KEY = os.getenv('TWINGATE_API_KEY')

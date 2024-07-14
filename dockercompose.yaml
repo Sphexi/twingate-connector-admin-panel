@@ -1,0 +1,9 @@
+version: '1'
+
+services:
+  email-to-sms-gateway:
+    image: ghcr.io/sphexi/twingate-connector-admin-panel:main
+    environment:
+      - TWINGATE_API_DOMAIN= #twingate network name ie company from company.twingate.com
+      - TWINGATE_API_KEY= #a twingate api key with read permissions
+    restart: unless-stopped

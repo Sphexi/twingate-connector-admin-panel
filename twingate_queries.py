@@ -1,5 +1,5 @@
-#file to contain the graphql queries to twingate
-#this file will be used to connect to the twingate graphql api using ariadne and get a list of all connectors
+# queries for the twingate api
+
 import __main__
 from globals import *
 
@@ -159,7 +159,6 @@ def service_accounts():
     
     response = requests.request("POST", url, json={'query': query}, headers=headers)
     response_json = json.loads(response.text)['data']['serviceAccounts']['edges']
-
     service_accounts = []
     for service_account in response_json:
         service_accounts.append(service_account['node'])

@@ -1,18 +1,14 @@
-#main app file for the twingate connector status app
-#this app uses flask to display a web page with the status of all the connectors
-#and will eventually allow new connectors to be built inside of a docker container
-#on the host where this app is also deployed, using the docker daemon
-#this app will also allow the user to delete connectors from the twingate portal
+# app launcher, sets a basic error handler and runs waitress
 
-#import from the globals file
+# import from the globals file
 from globals import *
 
 
-#Start flask
+# start flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = str(uuid.uuid4())
 
-#setup error handling, http errors return a json body with details all others a generic 500
+# setup error handling, http errors return a json body with details all others a generic 500
 @app.errorhandler(Exception)
 def handle_exception(e):
     if isinstance(e, HTTPException):
