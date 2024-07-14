@@ -1,7 +1,8 @@
 version: '1'
 
 services:
-  email-to-sms-gateway:
+  twingate-dashboard:
+    name: twingate-dashboard
     image: ghcr.io/sphexi/twingate-connector-admin-panel:main
     environment:
       - TWINGATE_API_DOMAIN= #twingate network name ie company from company.twingate.com

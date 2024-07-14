@@ -5,6 +5,7 @@ from globals import *
 
 
 # start flask
+print("starting app")
 app = Flask(__name__)
 app.config['SECRET_KEY'] = str(uuid.uuid4())
 
@@ -20,4 +21,5 @@ import routes.main
 
 
 if __name__ == '__main__':
+    print("starting waitress")
     serve(app, host='0.0.0.0', port=5000, threads=10)

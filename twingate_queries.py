@@ -27,8 +27,10 @@ def connectors():
     }
     }
     """
-
-    response = requests.request("POST", url, json={'query': query}, headers=headers)
+    try:
+      response = requests.request("POST", url, json={'query': query}, headers=headers)
+    except Exception as e:
+      print(e)
     response_json = json.loads(response.text)['data']['connectors']['edges']
     connectors = []
     for connector in response_json:
@@ -56,7 +58,10 @@ def devices():
 }
     """
 
-    response = requests.request("POST", url, json={'query': query}, headers=headers)
+    try:
+      response = requests.request("POST", url, json={'query': query}, headers=headers)
+    except Exception as e:
+      print(e)
     response_json = json.loads(response.text)['data']['devices']['edges']
     devices = []
     for device in response_json:
@@ -86,8 +91,10 @@ def resources():
     }
   }
 }"""
-
-    response = requests.request("POST", url, json={'query': query}, headers=headers)
+    try:
+      response = requests.request("POST", url, json={'query': query}, headers=headers)
+    except Exception as e:
+      print(e)
     response_json = json.loads(response.text)['data']['resources']['edges']
     resources = []
     for resource in response_json:
@@ -116,8 +123,10 @@ def users():
               }
             }
           }"""
-    
-    response = requests.request("POST", url, json={'query': query}, headers=headers)
+    try:
+      response = requests.request("POST", url, json={'query': query}, headers=headers)
+    except Exception as e:
+      print(e)
     response_json = json.loads(response.text)['data']['users']['edges']
     users = []
     for user in response_json:
@@ -156,8 +165,10 @@ def service_accounts():
               }
             }
           }"""
-    
-    response = requests.request("POST", url, json={'query': query}, headers=headers)
+    try:
+      response = requests.request("POST", url, json={'query': query}, headers=headers)
+    except Exception as e:
+      print(e)
     response_json = json.loads(response.text)['data']['serviceAccounts']['edges']
     service_accounts = []
     for service_account in response_json:
